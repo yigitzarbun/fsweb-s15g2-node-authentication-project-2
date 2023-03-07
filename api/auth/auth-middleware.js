@@ -44,6 +44,11 @@ const sadece = (role_name) => (req, res, next) => {
 
     Tekrar authorize etmekten kaçınmak için kodu çözülmüş tokeni req nesnesinden çekin!
   */
+  if (req.body.role_name && req.body.role_name == role_name) {
+    next();
+  } else {
+    res.status(403).json({ message: "Bu, senin için değil" });
+  }
 };
 
 const usernameVarmi = async (req, res, next) => {
@@ -92,6 +97,7 @@ const rolAdiGecerlimi = (req, res, next) => {
     res.status(422).json({ message: "rol adı 32 karakterden fazla olamaz" });
   } else {
     req.body.role_name = req.body.role_name.trim();
+    next();
   }
 };
 
